@@ -1,16 +1,16 @@
 echo -e "\nStarting compilation...\n"
 
 # ENV
-CONFIG=vendor/sixteen_defconfig
+CONFIG=vendor/ginkgo-perf_defconfig
 KERNEL_DIR=$(pwd)
 PARENT_DIR="$(dirname "$KERNEL_DIR")"
-KERN_IMG="/home/kyvangka1610/out-new-Q/out/arch/arm64/boot/Image.gz-dtb"
+KERN_IMG="$KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb"
 export KBUILD_BUILD_USER="ZHANtech™"
 export KBUILD_BUILD_HOST="gatotkaca"
-export PATH="/home/kyvangka1610/toolchain/Sixteen_Clang/bin:$PATH"
-export LD_LIBRARY_PATH="/home/kyvangka1610/toolchain/Sixteen_Clang/lib:$LD_LIBRARY_PATH"
-export KBUILD_COMPILER_STRING="$(/home/kyvangka1610/toolchain/Sixteen_Clang/bin/clang --version | head -n 1 | perl -pe 's/\((?:http|git).*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')"
-export out=/home/kyvangka1610/out-new-Q
+export PATH="$HOME/toolchain/clang-r412851/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/toolchain/clang-r412851/lib:$LD_LIBRARY_PATH"
+export KBUILD_COMPILER_STRING="$($HOME/toolchain/clang-r412851/bin/clang --version | head -n 1 | perl -pe 's/\((?:http|git).*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')"
+export out=out
 
 # Functions
 clang_build () {
@@ -35,14 +35,14 @@ echo -e "\nCompiling $ZIPNAME\n"
 clang_build
 if [ -f "$out/arch/arm64/boot/Image.gz-dtb" ] && [ -f "$out/arch/arm64/boot/dtbo.img" ]; then
  echo -e "\nKernel compiled succesfully! Zipping up...\n"
- ZIPNAME="SixTeen•Kernel•Q•Ginkgo•Willow-$(date '+%Y%m%d-%H%M').zip"
+ ZIPNAME="GatotKaca•Kernel•Q•Ginkgo•Willow-$(date '+%Y%m%d-%H%M').zip"
  if [ ! -d AnyKernel3 ]; then
-  git clone -q https://github.com/Kyvangka1610/AnyKernel3.git
+  git clone -q https://github.com/zhantech/AnyKernel3.git
  fi;
  mv -f $out/arch/arm64/boot/Image.gz-dtb AnyKernel3
  mv -f $out/arch/arm64/boot/dtbo.img AnyKernel3
  cd AnyKernel3
- zip -r9 "/home/kyvangka1610/$ZIPNAME" *
+ zip -r9 "$HOME/$ZIPNAME" *
  cd ..
  rm -rf AnyKernel3
  echo -e "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
